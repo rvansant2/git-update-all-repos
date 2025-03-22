@@ -32,9 +32,7 @@ has_changes() {
 }
 
 update_all_repos() {
-    echo "PROJECT_DIR: ${PROJECT_DIR}"
     GIT_DIRS=$(find "${PROJECT_DIR}" -type d -name ".git")
-    echo "GIT_DIRS: ${GIT_DIRS}"
 
     IFS=$'\n'
     for GIT_DIR in ${GIT_DIRS}; do
