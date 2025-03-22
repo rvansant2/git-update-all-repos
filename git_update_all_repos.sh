@@ -49,7 +49,7 @@ update_all_repos() {
         BRANCH=$(get_branch)
         log_info "${TIMESTAMP} Branch: ${BRANCH}"
 
-         if [[ "${BRANCH}" == "${DEFAULT_WORKING_BRANCH}" || "${BRANCH}" == "${OTHER_DEFAULT_WORKING_BRANCH}" ]]; then
+        if [[ "${BRANCH}" == "${DEFAULT_WORKING_BRANCH}" || "${BRANCH}" == "${OTHER_DEFAULT_WORKING_BRANCH}" ]]; then
             if has_changes; then
                 git stash --include-untracked
                 log_info "${TIMESTAMP} You have changes on ${BRANCH}, stashing them before pulling..."
