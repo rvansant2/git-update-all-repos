@@ -1,0 +1,24 @@
+# Temporary files
+*.tmp
+*.log
+tmp/
+temp/
+
+# Backup files
+*.bak
+
+# macOS files
+.DS_Store
+
+#Vim files
+*.swp
+
+# Runtime files
+*.out
+
+#Log files
+*.log
+logs/
+
+# Specific files
+config.ini
