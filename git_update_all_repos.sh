@@ -50,16 +50,21 @@ update_all_repos() {
         log_info "${TIMESTAMP} Branch: ${BRANCH}"
 
         if [[ "${BRANCH}" == "${DEFAULT_WORKING_BRANCH}" || "${BRANCH}" == "${OTHER_DEFAULT_WORKING_BRANCH}" ]]; then
-            if has_changes; then
-                git stash --include-untracked
-                log_info "${TIMESTAMP} You have changes on ${BRANCH}, stashing them before pulling..."
-                STASHED=true
-            else
-                STASHED=false
-            fi
-
             echo "${TIMESTAMP}" >> "${LOGFILE}"
-            git pull --rebase -v origin "${BRANCH}" >> "${LOGFILE}" 2>&1
+
+            STASHED=false
+
+            if ! git pull --rebase -v origin "${BRANCH}" >> "${LOGFILE}" 2>&1; then
+                if has_changes; then
+                    log_warn "${TIMESTAMP} Pull failed on ${BRANCH} due to local changes. Stashing and retrying..."
+                    git stash --include-untracked
+                    STASHED=true
+                    git pull --rebase -v origin "${BRANCH}" >> "${LOGFILE}" 2>&1
+                else
+                    log_error "${TIMESTAMP} Pull failed for unknown reason on ${REPO}"
+                    continue
+                fi
+            fi
 
             if [ "$STASHED" = true ]; then
                 git stash pop
